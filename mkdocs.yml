@@ -1,0 +1,49 @@
+site_name: Pardus
+site_url: https://pardus.github.io/
+site_description: Pardus Linux website
+
+theme:
+  name: material
+  language: en
+  logo: assets/img-header-logo-white.svg
+  favicon: assets/img-header-logo.svg
+  palette:
+    scheme: default
+    primary: custom
+    accent: teal
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+
+nav:
+  - Home: index.md
+  - Download: download.md
+  - Screenshot: screenshot/screenshot.md  
+  - Contact: contact.md
+  - Wiki:
+    - Linux:
+      - Polkit: wiki/linux/polkit.md
+    - C Programming:
+      - 01 Hello World: wiki/c-programming/01-hello-world.md
+      - 02 Syntax: wiki/c-programming/02-syntax.md
+    - Python Gtk 4.0:
+      - 01 Hello Gtk: wiki/python-gtk/01-gtk-hello.md
+      - 02 Gtk Containers: wiki/python-gtk/02-gtk-containers.md
+
+extra_css:
+  - stylesheets/extra.css
+
+extra:
+  social:
+    - icon: fontawesome/solid/link
+      link: https://forum.pardus.org.tr/c/english-forum/42
+    - icon: fontawesome/solid/house
+      link: https://pardus.org.tr/en/
+    - icon: fontawesome/brands/github
+      link: https://github.com/pardus
