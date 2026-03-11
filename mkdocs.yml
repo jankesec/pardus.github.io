@@ -24,7 +24,8 @@ markdown_extensions:
 nav:
   - Home: index.md
   - Download: download.md
-  - Screenshot: screenshot/screenshot.md  
+  - Screenshot: screenshot/screenshot.md
+  - Lifecycle: lifecycle.md
   - Contact: contact.md
   - Wiki:
     - Linux:
