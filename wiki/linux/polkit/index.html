@@ -1,0 +1,1347 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Pardus Linux website">
+      
+      
+      
+        <link rel="canonical" href="https://pardus.github.io/wiki/linux/polkit/">
+      
+      
+        <link rel="prev" href="../../../contact/">
+      
+      
+        <link rel="next" href="../../c-programming/01-hello-world/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../assets/img-header-logo.svg">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>Polkit - Pardus</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="teal">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#20240530-emin-fedar" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="Pardus" class="md-header__button md-logo" aria-label="Pardus" data-md-component="logo">
+      
+  <img src="../../../assets/img-header-logo-white.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Pardus
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Polkit
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="Pardus" class="md-nav__button md-logo" aria-label="Pardus" data-md-component="logo">
+      
+  <img src="../../../assets/img-header-logo-white.svg" alt="logo">
+
+    </a>
+    Pardus
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../download/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Download
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../screenshot/screenshot/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Screenshot
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../lifecycle/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lifecycle
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../contact/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Contact
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Wiki
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Wiki
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_1" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_6_1" id="__nav_6_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Linux
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_1_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_6_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Linux
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Polkit
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Polkit
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#20240530-emin-fedar" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2024.05.30 - Emin Fedar
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#using-polkit-to-perform-root-privilege-actions-in-a-gtk-application-without-asking-for-root-password" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Using Polkit to Perform Root Privilege Actions in a GTK Application Without Asking for Root Password
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Using Polkit to Perform Root Privilege Actions in a GTK Application Without Asking for Root Password">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#-prerequisites" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        - Prerequisites
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#-step-1-understand-polkit-and-its-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        - Step 1: Understand Polkit and its Configuration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#-step-2-define-a-custom-action-xml" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        - Step 2: Define a Custom Action (XML)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#-examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        - Examples
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#-step-3-create-a-polkit-rule-with-javascript-optional-polkit-version-0106" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        - Step 3: Create a Polkit Rule with JavaScript (Optional, polkit version &gt;= 0.106)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#-alternative-step-3-local-authority-files-optional" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        - Alternative Step 3: Local Authority Files (Optional)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#-step-4-implement-the-gtk4-application" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        - Step 4: Implement the GTK4 Application
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#-conclusion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        - Conclusion
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_2" id="__nav_6_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C Programming
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    C Programming
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../c-programming/01-hello-world/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    01 Hello World
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../c-programming/02-syntax/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    02 Syntax
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_3" id="__nav_6_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Python Gtk 4.0
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Python Gtk 4.0
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../python-gtk/01-gtk-hello/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    01 Hello Gtk
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../python-gtk/02-gtk-containers/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    02 Gtk Containers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#20240530-emin-fedar" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2024.05.30 - Emin Fedar
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#using-polkit-to-perform-root-privilege-actions-in-a-gtk-application-without-asking-for-root-password" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Using Polkit to Perform Root Privilege Actions in a GTK Application Without Asking for Root Password
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Using Polkit to Perform Root Privilege Actions in a GTK Application Without Asking for Root Password">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#-prerequisites" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        - Prerequisites
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#-step-1-understand-polkit-and-its-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        - Step 1: Understand Polkit and its Configuration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#-step-2-define-a-custom-action-xml" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        - Step 2: Define a Custom Action (XML)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#-examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        - Examples
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#-step-3-create-a-polkit-rule-with-javascript-optional-polkit-version-0106" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        - Step 3: Create a Polkit Rule with JavaScript (Optional, polkit version &gt;= 0.106)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#-alternative-step-3-local-authority-files-optional" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        - Alternative Step 3: Local Authority Files (Optional)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#-step-4-implement-the-gtk4-application" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        - Step 4: Implement the GTK4 Application
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#-conclusion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        - Conclusion
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h4 id="20240530-emin-fedar">2024.05.30 - <a href="https://github.com/eminfedar">Emin Fedar</a></h4>
+<h1 id="using-polkit-to-perform-root-privilege-actions-in-a-gtk-application-without-asking-for-root-password">Using Polkit to Perform Root Privilege Actions in a GTK Application Without Asking for Root Password</h1>
+<p>In many Linux distributions, performing administrative tasks typically requires root privileges.</p>
+<p><strong>However, constantly entering the root password can be cumbersome, especially for repetitive tasks within a graphical application. Another case is that an unprivileged user should be able to do something a privileged user can do but without entering a root password.</strong></p>
+<p>Polkit (PolicyKit) is a toolkit for defining and handling authorizations, providing a way to centralize the management of system-wide privileges. By configuring Polkit correctly, we can allow certain actions to be performed without requiring the user to enter the root password every time.</p>
+<blockquote>
+<p>This blog post will guide you through the process of using Polkit to perform an action that requires root privileges in a GTK application by clicking a button, without prompting the user for the root password.</p>
+</blockquote>
+<h2 id="-prerequisites">- Prerequisites</h2>
+<p>Before we begin, ensure that you have the following:</p>
+<ul>
+<li>A Linux distribution with Polkit installed(most of them already have).</li>
+<li>Basic knowledge of creating Python + GTK applications.</li>
+<li>Root access to your system to add new Polkit configurations.</li>
+</ul>
+<h2 id="-step-1-understand-polkit-and-its-configuration">- Step 1: Understand Polkit and its Configuration</h2>
+<p>Polkit operates by defining actions that correspond to specific system-wide privileges.</p>
+<p>You can define a policy in here:</p>
+<ul>
+<li>XML Policy <em>(.policy)</em>: <code>/usr/share/polkit-1/actions/</code></li>
+</ul>
+<p>And you can define additional rules for a policy or policies here:</p>
+<ul>
+<li>JavaScript Rules <em>(.rules)</em>: <code>/usr/share/polkit-1/rules.d/</code> <strong><em>(new way)</em></strong></li>
+<li>Local Authority Rules <em>(.pkla)</em>: <code>/etc/polkit-1/localauthority/50-local.d/</code> <strong><em>(old way)</em></strong></li>
+</ul>
+<h2 id="-step-2-define-a-custom-action-xml">- Step 2: Define a Custom Action (XML)</h2>
+<p>First, define a custom action for your application. Create an XML file, say <code>com.example.myapp.policy</code> <em>(usually your.application.id.policy is the filename)</em>, in <code>/usr/share/polkit-1/actions/</code>.</p>
+<p>Here is a real life example .policy file content used in Pardus Software(pardus-software):</p>
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+<span class="cp">&lt;!DOCTYPE policyconfig PUBLIC &quot;-//freedesktop//DTD PolicyKit Policy Configuration 1.0//EN&quot; &quot;http://www.freedesktop.org/standards/PolicyKit/1.0/policyconfig.dtd&quot;&gt;</span>
+<span class="nt">&lt;policyconfig&gt;</span>
+<span class="w">  </span><span class="nt">&lt;vendor&gt;</span>Pardus<span class="w"> </span>Developers<span class="nt">&lt;/vendor&gt;</span>
+<span class="w">  </span><span class="nt">&lt;vendor_url&gt;</span>https://www.pardus.org.tr<span class="nt">&lt;/vendor_url&gt;</span>
+
+<span class="w">  </span><span class="nt">&lt;action</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;tr.org.pardus.pkexec.pardus-software-action&quot;</span><span class="nt">&gt;</span>
+<span class="w">    </span><span class="nt">&lt;description&gt;</span>Pardus<span class="w"> </span>Software<span class="w"> </span>Center<span class="w"> </span>Authentication<span class="nt">&lt;/description&gt;</span>
+<span class="w">    </span><span class="nt">&lt;message&gt;</span>Authentication<span class="w"> </span>is<span class="w"> </span>required<span class="w"> </span>for<span class="w"> </span>Pardus<span class="w"> </span>Software<span class="w"> </span>Center<span class="nt">&lt;/message&gt;</span>
+<span class="w">    </span><span class="nt">&lt;message</span><span class="w"> </span><span class="na">xml:lang=</span><span class="s">&quot;tr&quot;</span><span class="nt">&gt;</span>Pardus<span class="w"> </span>Yazılım<span class="w"> </span>Merkezi<span class="w"> </span>için<span class="w"> </span>yetkilendirme<span class="w"> </span>gerekiyor<span class="nt">&lt;/message&gt;</span>
+<span class="w">    </span><span class="nt">&lt;icon_name&gt;</span>preferences-system<span class="nt">&lt;/icon_name&gt;</span>
+
+<span class="w">    </span><span class="nt">&lt;defaults&gt;</span>
+<span class="w">      </span><span class="nt">&lt;allow_any&gt;</span>auth_admin<span class="nt">&lt;/allow_any&gt;</span>
+<span class="w">      </span><span class="nt">&lt;allow_inactive&gt;</span>auth_admin<span class="nt">&lt;/allow_inactive&gt;</span>
+<span class="w">      </span><span class="nt">&lt;allow_active&gt;</span>auth_admin_keep<span class="nt">&lt;/allow_active&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/defaults&gt;</span>
+
+<span class="w">    </span><span class="nt">&lt;annotate</span><span class="w"> </span><span class="na">key=</span><span class="s">&quot;org.freedesktop.policykit.exec.path&quot;</span><span class="nt">&gt;</span>/usr/share/pardus/pardus-software/src/Actions.py<span class="nt">&lt;/annotate&gt;</span>
+<span class="w">    </span><span class="nt">&lt;annotate</span><span class="w"> </span><span class="na">key=</span><span class="s">&quot;org.freedesktop.policykit.exec.allow_gui&quot;</span><span class="nt">&gt;</span>true<span class="nt">&lt;/annotate&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/action&gt;</span>
+<span class="nt">&lt;/policyconfig&gt;</span>
+</code></pre></div>
+<p>Let's examine the .policy file line by line:</p>
+<p><code>&lt;policyconfig&gt;</code> is the base tag:</p>
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+<span class="cp">&lt;!DOCTYPE policyconfig PUBLIC &quot;-//freedesktop//DTD PolicyKit Policy Configuration 1.0//EN&quot; &quot;http://www.freedesktop.org/standards/PolicyKit/1.0/policyconfig.dtd&quot;&gt;</span>
+<span class="nt">&lt;policyconfig&gt;</span>
+
+<span class="w">    </span>...
+
+<span class="nt">&lt;/policyconfig&gt;</span>
+</code></pre></div>
+<p><code>&lt;vendor&gt;</code> to inform user about who is the developer of the application:</p>
+<div class="highlight"><pre><span></span><code><span class="w">  </span><span class="nt">&lt;vendor&gt;</span>Pardus<span class="w"> </span>Developers<span class="nt">&lt;/vendor&gt;</span>
+<span class="w">  </span><span class="nt">&lt;vendor_url&gt;</span>https://www.pardus.org.tr<span class="nt">&lt;/vendor_url&gt;</span>
+</code></pre></div>
+<p><code>&lt;action&gt;</code> tag defines the action that is to be performed:</p>
+<div class="highlight"><pre><span></span><code><span class="w">  </span><span class="nt">&lt;action</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;tr.org.pardus.pkexec.pardus-software-action&quot;</span><span class="nt">&gt;</span>
+<span class="w">    </span><span class="nt">&lt;description&gt;</span>Pardus<span class="w"> </span>Software<span class="w"> </span>Center<span class="w"> </span>Authentication<span class="nt">&lt;/description&gt;</span>
+<span class="w">    </span><span class="nt">&lt;message&gt;</span>Authentication<span class="w"> </span>is<span class="w"> </span>required<span class="w"> </span>for<span class="w"> </span>Pardus<span class="w"> </span>Software<span class="w"> </span>Center<span class="nt">&lt;/message&gt;</span>
+<span class="w">    </span><span class="nt">&lt;message</span><span class="w"> </span><span class="na">xml:lang=</span><span class="s">&quot;tr&quot;</span><span class="nt">&gt;</span>Pardus<span class="w"> </span>Yazılım<span class="w"> </span>Merkezi<span class="w"> </span>için<span class="w"> </span>yetkilendirme<span class="w"> </span>gerekiyor<span class="nt">&lt;/message&gt;</span>
+<span class="w">    </span><span class="nt">&lt;icon_name&gt;</span>preferences-system<span class="nt">&lt;/icon_name&gt;</span>
+
+<span class="w">    </span><span class="nt">&lt;defaults&gt;</span>
+<span class="w">      </span><span class="nt">&lt;allow_any&gt;</span>auth_admin<span class="nt">&lt;/allow_any&gt;</span>
+<span class="w">      </span><span class="nt">&lt;allow_inactive&gt;</span>auth_admin<span class="nt">&lt;/allow_inactive&gt;</span>
+<span class="w">      </span><span class="nt">&lt;allow_active&gt;</span>auth_admin_keep<span class="nt">&lt;/allow_active&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/defaults&gt;</span>
+
+<span class="w">    </span><span class="nt">&lt;annotate</span><span class="w"> </span><span class="na">key=</span><span class="s">&quot;org.freedesktop.policykit.exec.path&quot;</span><span class="nt">&gt;</span>/usr/share/pardus/pardus-software/src/Actions.py<span class="nt">&lt;/annotate&gt;</span>
+<span class="w">    </span><span class="nt">&lt;annotate</span><span class="w"> </span><span class="na">key=</span><span class="s">&quot;org.freedesktop.policykit.exec.allow_gui&quot;</span><span class="nt">&gt;</span>true<span class="nt">&lt;/annotate&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/action&gt;</span>
+</code></pre></div>
+<p><code>&lt;defaults&gt;</code> tag specifies implicit authorizations for clients [[1]]:</p>
+<div class="highlight"><pre><span></span><code><span class="w">    </span><span class="nt">&lt;defaults&gt;</span>
+<span class="w">      </span><span class="nt">&lt;allow_any&gt;</span>auth_admin<span class="nt">&lt;/allow_any&gt;</span>
+<span class="w">      </span><span class="nt">&lt;allow_inactive&gt;</span>auth_admin<span class="nt">&lt;/allow_inactive&gt;</span>
+<span class="w">      </span><span class="nt">&lt;allow_active&gt;</span>auth_admin_keep<span class="nt">&lt;/allow_active&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/defaults&gt;</span>
+</code></pre></div>
+<ul>
+<li><code>allow_any</code>: Implicit authorizations that apply to <strong>any</strong> client. (Optional)</li>
+<li><code>allow_inactive</code>: Implicit authorizations that apply to clients in <strong>inactive</strong> sessions on local consoles. (Optional)</li>
+<li><code>allow_active</code>: Implicit authorizations that apply to clients in <strong>active</strong> sessions on local consoles. (Optional)</li>
+</ul>
+<p>Each of the <code>allow_any</code>, <code>allow_inactive</code> and <code>allow_active</code> elements can contain the following values [[1]]:</p>
+<ul>
+<li><code>no</code>: Not authorized.</li>
+<li><code>yes</code>: Authorized <strong>without asking password.</strong></li>
+<li><code>auth_self</code>: Asks the password of the user of the current session.</li>
+</ul>
+<blockquote>
+<p>Note that <code>auth_self</code> is not restrictive enough for most uses on multi-user systems. <code>auth_admin</code> is generally recommended.</p>
+<p>Because users are aware of their passwords but are unaware of the root or admin user password. Using auth_self can be acceptable if the modification just has an impact on the user itself.</p>
+</blockquote>
+<ul>
+<li><code>auth_admin</code>: Asks the password of the <strong>root or administrative user.</strong></li>
+<li>
+<p><code>auth_self_keep</code>: Like <code>auth_self</code> but the authorization is kept for a brief period (e.g. five minutes). <em>The warning about <strong>auth_self</strong> above applies likewise.</em></p>
+</li>
+<li>
+<p><code>auth_admin_keep</code>: Like <code>auth_admin</code> but the authorization is kept for a brief period (e.g. five minutes).</p>
+</li>
+</ul>
+<p><code>&lt;annotate&gt;</code> Used for annotating an action with a key/value pair:</p>
+<div class="highlight"><pre><span></span><code><span class="w">    </span><span class="nt">&lt;annotate</span><span class="w"> </span><span class="na">key=</span><span class="s">&quot;org.freedesktop.policykit.exec.path&quot;</span><span class="nt">&gt;</span>/usr/share/pardus/pardus-software/src/Actions.py<span class="nt">&lt;/annotate&gt;</span>
+<span class="w">    </span><span class="nt">&lt;annotate</span><span class="w"> </span><span class="na">key=</span><span class="s">&quot;org.freedesktop.policykit.exec.allow_gui&quot;</span><span class="nt">&gt;</span>true<span class="nt">&lt;/annotate&gt;</span>
+</code></pre></div>
+<p>Here we defined <code>path</code> of the executable file, which can be executed with <code>pkexec</code>.</p>
+<p>Setting the <code>allow_gui</code> true is important to make <code>pkexec</code> access the current user session environment of the user to work properly(<code>$DISPLAY</code> and <code>$XAUTHORITY</code> env variables are retained). [[2]]</p>
+<p>Important annotations [[1]]:</p>
+<ul>
+<li><code>org.freedesktop.policykit.exec.path</code>: is used by the pkexec program shipped with polkit.
+  <br> - (e.g.:<code>/usr/share/pardus/pardus-software/src/Actions.py</code>)</li>
+<li><code>org.freedesktop.policykit.imply</code>: can be used to define meta actions. The way it works is that if a subject is authorized for an action with this annotation, then it is also authorized for any action specified by the annotation. A typical use of this annotation is when defining an UI shell with a single lock button that should unlock multiple actions from distinct mechanisms.
+  <br> - (e.g.: <code>org.freedesktop.Flatpak.runtime-install org.freedesktop.Flatpak.runtime-update</code>) [[3]]</li>
+<li><code>org.freedesktop.policykit.owner</code>: can be used to define a set of users who can query whether a client is authorized to perform this action.
+  <br> - (e.g.: <code>unix-user:42 unix-user:colord unix-group:floppy</code>)</li>
+</ul>
+<h2 id="-examples">- Examples</h2>
+<ul>
+<li><strong>Emin Fedar</strong> is an Administrative User.</li>
+<li>
+<p><strong>AUser</strong> is a normal user.</p>
+</li>
+<li>
+<p>When <code>auth_admin</code> action runs on <strong>Administrative User</strong>:</p>
+</li>
+</ul>
+<p><img alt="auth_admin_keep example" src="../img/auth_admin_on_admin.png" /></p>
+<ol>
+<li>When <code>auth_admin</code> action runs on <strong>Non Administrative User</strong>:</li>
+</ol>
+<p><img alt="auth_admin_keep example" src="../img/auth_admin_on_other_user.png" /></p>
+<ol>
+<li>When <code>auth_self</code> action runs on <strong>Non Administrative User</strong>:</li>
+</ol>
+<p><img alt="auth_admin_keep example" src="../img/auth_self_on_other_user.png" /></p>
+<p>As you can see, <code>auth_self</code> is asking password of the current user, <code>auth_admin</code> is asking the password of the administrative user.</p>
+<p><code>yes</code> is not asking for a password and <strong>authorizing the user immediately.</strong></p>
+<h2 id="-step-3-create-a-polkit-rule-with-javascript-optional-polkit-version-0106">- Step 3: Create a Polkit Rule with JavaScript (Optional, polkit version &gt;= 0.106)</h2>
+<p>Authorization rules are intended for two specific audiences</p>
+<ul>
+<li>System Administrators</li>
+<li>Special-purpose Operating Systems / Environments</li>
+</ul>
+<p>and <strong>those audiences only</strong>.</p>
+<blockquote>
+<p>In particular, applications, mechanisms and general-purpose operating systems <strong>must never include any authorization rules.</strong></p>
+</blockquote>
+<p>Next, create a Polkit rule that allows this action without asking for the root password.</p>
+<p>Create a file, say <code>10-myapp.rules</code>, in <code>/usr/share/polkit-1/rules.d/</code> with the following content:</p>
+<div class="highlight"><pre><span></span><code><span class="nx">polkit</span><span class="p">.</span><span class="nx">addRule</span><span class="p">(</span><span class="kd">function</span><span class="w"> </span><span class="p">(</span><span class="nx">action</span><span class="p">,</span><span class="w"> </span><span class="nx">subject</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="nx">action</span><span class="p">.</span><span class="nx">id</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">&quot;com.example.myapp.do-something&quot;</span><span class="w"> </span><span class="o">&amp;&amp;</span>
+<span class="w">    </span><span class="nx">subject</span><span class="p">.</span><span class="nx">isInGroup</span><span class="p">(</span><span class="s2">&quot;wheel&quot;</span><span class="p">)</span>
+<span class="w">  </span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nx">polkit</span><span class="p">.</span><span class="nx">Result</span><span class="p">.</span><span class="nx">YES</span><span class="p">;</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">});</span>
+</code></pre></div>
+<p>In this rule, we allow members of the <code>wheel</code> group to perform the action <code>com.example.myapp.do-something</code> <strong>without being prompted for a password.</strong></p>
+<p><code>polkit.Result</code> enum values:</p>
+<div class="highlight"><pre><span></span><code><span class="nx">polkit</span><span class="p">.</span><span class="nx">Result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nx">NO</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;no&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">YES</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;yes&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">AUTH_SELF</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;auth_self&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">AUTH_SELF_KEEP</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;auth_self_keep&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">AUTH_ADMIN</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;auth_admin&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">AUTH_ADMIN_KEEP</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;auth_admin_keep&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">NOT_HANDLED</span><span class="o">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<span class="p">};</span>
+</code></pre></div>
+<p>Passwordless actions <strong>are possible with just .policy files</strong> too by setting <code>&lt;allow_active&gt;yes&lt;/allow_active&gt;</code>.</p>
+<p>But <strong>if you need more details to authorize</strong> the user <em>(like the user must be in a certain group)</em> you can add details with .rules file.</p>
+<h2 id="-alternative-step-3-local-authority-files-optional">- Alternative Step 3: Local Authority Files (Optional)</h2>
+<p>Alternative to a .rules file, you can define basic rules in a .pkla file in the directory <code>/etc/polkit-1/localauthority/50-local.d/</code> too.</p>
+<p>An example .pkla file which authorizes spesific user group to perform the action <code>com.example.myapp.do-something</code> <strong>without asking a password from the user</strong> is shown below:</p>
+<div class="highlight"><pre><span></span><code>[Example Action]
+Identity=unix-group:spesific-group
+Action=com.example.myapp.do-something
+ResultAny=yes
+ResultInactive=yes
+ResultActive=yes
+</code></pre></div>
+<h2 id="-step-4-implement-the-gtk4-application">- Step 4: Implement the GTK4 Application</h2>
+<p>Now, implement the GTK4 application. Below is a simple example in Python using PyGObject:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">subprocess</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">gi</span>
+<span class="n">gi</span><span class="o">.</span><span class="n">require_version</span><span class="p">(</span><span class="s1">&#39;Gtk&#39;</span><span class="p">,</span> <span class="s1">&#39;4.0&#39;</span><span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">gi.repository</span><span class="w"> </span><span class="kn">import</span> <span class="n">Gtk</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">run_privileged_script</span><span class="p">():</span>
+    <span class="c1"># Call a command that requires root privileges</span>
+    <span class="n">command</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;pkexec&#39;</span><span class="p">,</span> <span class="s1">&#39;/usr/bin/my-script&#39;</span><span class="p">]</span>
+    <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">command</span><span class="p">)</span>
+
+<span class="c1"># When the application is launched</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">on_activate</span><span class="p">(</span><span class="n">app</span><span class="p">):</span>
+    <span class="n">win</span> <span class="o">=</span> <span class="n">Gtk</span><span class="o">.</span><span class="n">ApplicationWindow</span><span class="p">(</span><span class="n">application</span><span class="o">=</span><span class="n">app</span><span class="p">)</span>
+
+    <span class="n">btn</span> <span class="o">=</span> <span class="n">Gtk</span><span class="o">.</span><span class="n">Button</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;Hello, World!&#39;</span><span class="p">)</span>
+    <span class="n">btn</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s1">&#39;clicked&#39;</span><span class="p">,</span> <span class="n">run_privileged_script</span><span class="p">)</span>
+
+    <span class="n">win</span><span class="o">.</span><span class="n">set_child</span><span class="p">(</span><span class="n">btn</span><span class="p">)</span>
+    <span class="n">win</span><span class="o">.</span><span class="n">present</span><span class="p">()</span>
+
+<span class="c1"># Create a new application</span>
+<span class="n">app</span> <span class="o">=</span> <span class="n">Gtk</span><span class="o">.</span><span class="n">Application</span><span class="p">(</span><span class="n">application_id</span><span class="o">=</span><span class="s1">&#39;com.example.GtkApplication&#39;</span><span class="p">)</span>
+<span class="n">app</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s1">&#39;activate&#39;</span><span class="p">,</span> <span class="n">on_activate</span><span class="p">)</span>
+
+<span class="c1"># Run the application</span>
+<span class="n">app</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
+</code></pre></div>
+<p>In this example, when the button is clicked, it executes a command via <code>pkexec</code> (part of Polkit), which performs an administrative task.</p>
+<p>Since our Polkit rules <strong>allow this action without authentication for wheel group members</strong>, the command executes <strong>without prompting for a password.</strong></p>
+<h2 id="-conclusion">- Conclusion</h2>
+<p>By following these steps, you can configure Polkit to allow specific administrative actions to be performed without requiring the root password every time.</p>
+<ol>
+<li>Create a .policy file with <code>&lt;allow_active&gt;yes&lt;/allow_active&gt;</code> and a privileged script to run in <code>&lt;annotate key="org.freedesktop.policykit.exec.path"&gt;&lt;/annotate&gt;</code></li>
+<li>Run that script with <code>pkexec</code> in your application.</li>
+<li>(Optional) Additional rules can be defined in .rules file.</li>
+</ol>
+<p><strong>Remember to carefully manage the permissions and ensure that only trusted users are allowed to perform these actions without authentication to maintain the security of your system.</strong></p>
+<p>Happy coding!</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://forum.pardus.org.tr/c/english-forum/42" target="_blank" rel="noopener" title="forum.pardus.org.tr" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M419.5 96c-16.6 0-32.7 4.5-46.8 12.7-15.8-16-34.2-29.4-54.5-39.5 28.2-24 64.1-37.2 101.3-37.2C505.9 32 576 102 576 188.5c0 41.5-16.5 81.3-45.8 110.6l-71.1 71.1C429.8 399.5 390 416 348.5 416 262.1 416 192 346 192 259.5c0-1.5 0-3 .1-4.5.5-17.7 15.2-31.6 32.9-31.1s31.6 15.2 31.1 32.9v2.6c0 51.1 41.4 92.5 92.5 92.5 24.5 0 48-9.7 65.4-27.1l71.1-71.1c17.3-17.3 27.1-40.9 27.1-65.4 0-51.1-41.4-92.5-92.5-92.5zm-144.3 77.3c-1.9-.8-3.8-1.9-5.5-3.1-12.6-6.5-27-10.2-42.1-10.2-24.5 0-48 9.7-65.4 27.1l-71.1 71.1C73.8 275.5 64 299.1 64 323.6c0 51.1 41.4 92.5 92.5 92.5 16.5 0 32.6-4.4 46.7-12.6 15.8 16 34.2 29.4 54.6 39.5-28.2 23.9-64 37.2-101.3 37.2C70.1 480.2 0 410.2 0 323.7c0-41.5 16.5-81.3 45.8-110.6l71.1-71.1c29.3-29.3 69.1-45.8 110.6-45.8 86.6 0 156.5 70.6 156.5 156.9v3.9c-.4 17.7-15.1 31.6-32.8 31.2s-31.6-15.1-31.2-32.8v-2.3c0-33.7-18-63.3-44.8-79.6z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://pardus.org.tr/en/" target="_blank" rel="noopener" title="pardus.org.tr" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M277.8 8.6c-12.3-11.4-31.3-11.4-43.5 0l-224 208c-9.6 9-12.8 22.9-8 35.1S18.8 272 32 272h16v176c0 35.3 28.7 64 64 64h288c35.3 0 64-28.7 64-64V272h16c13.2 0 25-8.1 29.8-20.3s1.6-26.2-8-35.1zM240 320h32c26.5 0 48 21.5 48 48v96H192v-96c0-26.5 21.5-48 48-48"/></svg>
+    </a>
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/pardus" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": [], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+    
+  </body>
+</html>

@@ -1,0 +1,9 @@
+.md-header__title .md-header__topic:first-child {
+    display: none;
+}
+
+:root>* {
+    --md-primary-fg-color: #244E54;
+    --md-primary-fg-color--light: #d6d4d4;
+    --md-primary-fg-color--dark: #244E54;
+}
